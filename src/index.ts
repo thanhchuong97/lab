@@ -68,7 +68,7 @@ getConnectionOptions()
       admin.birthday = new Date();
       admin.email = "anphuc.admin@gmail.com";
       admin.role = ROLE.ADMIN;
-      admin.phoneNumber = "0763083423";
+      admin.phoneNumber = "0927633733";
       admin.gender = 1;
       admin.fullName = "anphuc";
       admin.password = password;

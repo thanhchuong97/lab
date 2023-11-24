@@ -44,7 +44,6 @@ export async function getListTopic(params: PagingParams) {
     .orderBy('topic.createdDate', 'DESC');
 
   const total = await query.getCount();
-  console.log(`total: ${total}`);
   const data = await query
     .skip(params.skip)
     .take(params.take)
