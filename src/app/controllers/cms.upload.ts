@@ -1,5 +1,5 @@
 import { CMS, Post } from '$helpers/decorator';
-import upload from '$middlewares/fileupload';
+import upload from '$middlewares/fileUpload';
 
 @CMS('/upload')
 export default class EmployeeController {
