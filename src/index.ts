@@ -29,7 +29,7 @@ const app = express();
 const http = createServer(app);
 
 connectToDatabase()
-  .then(async () => {
+  .then(async (connection) => {
     app.use(bodyParser.json({ limit: '10mb' }));
     app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
     app.use(cors());
@@ -49,16 +49,8 @@ connectToDatabase()
     if (process.env.SERVER_TYPE === 'full') {
       
     }
-    http.listen(process.env.SERVER_PORT, () => {
-      logger.info(
-        `Express server started on port ${process.env.SERVER_PORT}. ENV: ${process.env.ENVIRONMENT}`
-      );
-    });
-    socketManager.init(http);
-  })
-  .catch((error) => logger.error(error))
-  .then(async () => {
-    const userRepository = getRepository(User);
+  
+    const userRepository = connection.getRepository(User);
 
     const admin = await userRepository.findOne({ email: "anphuc.admin@gmail.com" });
     if (!admin) {
@@ -76,7 +68,15 @@ connectToDatabase()
       admin.status = AccountStatus.ACTIVE;
       await userRepository.save(admin);
     }
-  });
+
+    http.listen(process.env.SERVER_PORT, () => {
+      logger.info(
+        `Express server started on port ${process.env.SERVER_PORT}. ENV: ${process.env.ENVIRONMENT}`
+      );
+    });
+    socketManager.init(http);
+  })
+  .catch((error) => logger.error(error));
 
   async function connectToDatabase() {
     try {
