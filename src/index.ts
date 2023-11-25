@@ -7,7 +7,7 @@ import './app/require';
 
 import * as bodyParser from 'body-parser';
 
-import { createConnection, getConnectionOptions, getManager, getRepository } from 'typeorm';
+import { ConnectionOptions, createConnection, getManager, getRepository } from 'typeorm';
 
 import { CustomLogger } from './CustomLogger';
 import { RootRoute } from '$helpers/decorator';
@@ -28,14 +28,7 @@ const logger = log('Index');
 const app = express();
 const http = createServer(app);
 
-getConnectionOptions()
-  .then((connectionOptions) => {
-    return createConnection(
-      Object.assign(connectionOptions, {
-        logger: process.env.ENVIRONMENT === 'production' ? new CustomLogger() : undefined,
-      })
-    );
-  })
+connectToDatabase()
   .then(async () => {
     app.use(bodyParser.json({ limit: '10mb' }));
     app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
@@ -84,3 +77,42 @@ getConnectionOptions()
     socketManager.init(http);
   })
   .catch((error) => logger.error(error));
+
+  async function connectToDatabase() {
+    try {
+      const connectionOptions: ConnectionOptions = {
+        type: 'mysql',
+        host: process.env.DB_HOST,
+        port: Number(process.env.DB_PORT),
+        username: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        database: process.env.DB_NAME,
+        supportBigNumbers: false,
+        synchronize: true, // Alway use migration.
+        logging: process.env.ENVIRONMENT === 'production' ? false : true,
+        charset: 'utf8mb4',
+        migrationsTableName: 'migration',
+        entities: ['dist/app/entities/**/*.js'],
+        migrations: ['dist/database/migrations/**/*.js'],
+        subscribers: ['dist/database/subscribers/**/*.js'],
+        timezone: 'Z',
+        cli: {
+          entitiesDir: 'src/app/entities',
+          migrationsDir: 'src/database/migrations',
+          subscribersDir: 'src/database/subscribers',
+        },
+        extra: {
+          connectionLimit: 50,
+       },
+        logger: process.env.ENVIRONMENT === 'production' ? new CustomLogger() : undefined,
+      };
+  
+      const connection = await createConnection(connectionOptions);
+  
+      console.log('Connected to the database');
+      return connection;
+    } catch (error) {
+      console.error('Error connecting to the database:', error);
+      throw error;
+    }
+  }
