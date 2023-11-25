@@ -42,9 +42,9 @@ connectToDatabase()
     app.use(handleError);
 
     // Disable ONLY_FULL_GROUP_BY
-    await getManager().query(
-      `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
-    );
+    // await getManager().query(
+    //   `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
+    // );
 
     if (process.env.SERVER_TYPE === 'full') {
       
