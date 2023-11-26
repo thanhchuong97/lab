@@ -50,24 +50,24 @@ connectToDatabase()
       
     }
   
-    const userRepository = connection.getRepository(User);
+    // const userRepository = connection.getRepository(User);
 
-    const admin = await userRepository.findOne({ email: "anphuc.admin@gmail.com" });
-    if (!admin) {
-      const password = await hash("123456", config.auth.SaltRounds);
+    // const admin = await userRepository.findOne({ email: "anphuc.admin@gmail.com" });
+    // if (!admin) {
+    //   const password = await hash("123456", config.auth.SaltRounds);
 
-      const admin = new User();
-      admin.id = 1;
-      admin.birthday = new Date();
-      admin.email = "anphuc.admin@gmail.com";
-      admin.role = ROLE.ADMIN;
-      admin.phoneNumber = "0927633733";
-      admin.gender = 1;
-      admin.fullName = "anphuc";
-      admin.password = password;
-      admin.status = AccountStatus.ACTIVE;
-      await userRepository.save(admin);
-    }
+    //   const admin = new User();
+    //   admin.id = 1;
+    //   admin.birthday = new Date();
+    //   admin.email = "anphuc.admin@gmail.com";
+    //   admin.role = ROLE.ADMIN;
+    //   admin.phoneNumber = "0927633733";
+    //   admin.gender = 1;
+    //   admin.fullName = "anphuc";
+    //   admin.password = password;
+    //   admin.status = AccountStatus.ACTIVE;
+    //   await userRepository.save(admin);
+    // }
 
     http.listen(process.env.SERVER_PORT, () => {
       logger.info(
