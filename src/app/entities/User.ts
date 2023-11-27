@@ -22,7 +22,7 @@ export default class User {
   @Column({ name: 'phone_number', type: 'varchar', length: 20, nullable: true, unique: true })
   phoneNumber: string | null;
 
-  @Column({ name: 'avatar', type: 'varchar', length: 255, nullable: true })
+  @Column({ name: 'avatar', type: 'longtext', nullable: true })
   avatar: string | null;
 
   @Column({ name: 'status', type: 'tinyint', default: 1, comment: '0: Inactive, 1: Active.' })

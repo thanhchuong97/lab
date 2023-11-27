@@ -7,7 +7,7 @@ export default class Employee {
   @Column({ name: 'full_name', type: 'varchar', length: 255, nullable: true })
   fullName: string;
 
-  @Column({ name: 'avatar', type: 'text', nullable: false })
+  @Column({ name: 'avatar', type: 'longtext', nullable: false })
   avatar: string;
 
   @Column({ name: 'degree', type: 'varchar', length: 255, nullable: false} )

@@ -4,7 +4,7 @@ export default class Topic {
   @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
   id: number;
 
-  @Column({ name: 'thumbnail', type: 'text', nullable: false })
+  @Column({ name: 'thumbnail', type: 'longtext', nullable: false })
   thumbnail: string;
 
   @Column({ name: 'title', type: 'varchar', length: 255, nullable: false} )

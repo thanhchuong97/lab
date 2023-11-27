@@ -10,7 +10,7 @@ export default class LabImage {
   @UpdateDateColumn({ name: 'modified_date', type: 'datetime', nullable: true })
   modifiedDate: Date | null;
 
-  @Column({ name: 'image', type: 'text', nullable: false })
+  @Column({ name: 'image', type: 'longtext', nullable: false })
   image: string | null;
 
   @Column({ name: 'order', type: 'int', nullable: false })
