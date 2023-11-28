@@ -7,7 +7,7 @@ import './app/require';
 
 import * as bodyParser from 'body-parser';
 
-import { ConnectionOptions, createConnection, getManager, getRepository } from 'typeorm';
+import { ConnectionOptions, createConnection } from 'typeorm';
 
 import { CustomLogger } from './CustomLogger';
 import { RootRoute } from '$helpers/decorator';
@@ -22,7 +22,6 @@ import User from '$entities/User';
 import { hash } from 'bcryptjs';
 import { AccountStatus, ROLE } from '$enums/index';
 import config from '$config';
-import socketManager from '$helpers/socket';
 
 const logger = log('Index');
 const app = express();
@@ -74,7 +73,6 @@ connectToDatabase()
         `Express server started on port ${process.env.SERVER_PORT}. ENV: ${process.env.ENVIRONMENT}`
       );
     });
-    socketManager.init(http);
   })
   .catch((error) => logger.error(error));
 
